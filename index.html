@@ -59,18 +59,22 @@
     </div>
 
     <script>
-     async function generateQuote() {
+     async function generateBibleQuote() {
     try {
-        const response = await fetch('https://quote-garden.herokuapp.com/api/v3/quotes/random'); // Fetch a random quote
-        const data = await response.json(); // Convert response to JSON
-        const quote = data.data[0]; // Access the first quote
-        document.getElementById('quote').textContent = `"${quote.quoteText}"`;
-        document.getElementById('author').textContent = `- ${quote.quoteAuthor}`;
+        // Fetch a random verse using Bible API
+        const response = await fetch('https://bible-api.com/random'); // Adjust API URL for specific versions if needed
+        const data = await response.json();
+
+        // Display the Bible verse
+        document.getElementById('quote').textContent = `"${data.text}"`;
+        document.getElementById('author').textContent = `- ${data.reference}`;
     } catch (error) {
+        // Handle errors
         document.getElementById('quote').textContent = "Sorry, something went wrong.";
         document.getElementById('author').textContent = "";
     }
 }
+
 
     </script>
 </body>
