@@ -61,19 +61,24 @@
     <script>
      async function generateBibleQuote() {
     try {
-        // Fetch a random verse using Bible API
-        const response = await fetch('https://bible-api.com/random'); // Adjust API URL for specific versions if needed
+        // Fetch all verses from a specific chapter (adjust book and chapter as needed)
+        const response = await fetch('https://bible-api.com/John+3'); // Fetch all verses from John 3
         const data = await response.json();
 
-        // Display the Bible verse
-        document.getElementById('quote').textContent = `"${data.text}"`;
-        document.getElementById('author').textContent = `- ${data.reference}`;
+        // Randomly select a verse from the fetched verses
+        const randomIndex = Math.floor(Math.random() * data.verses.length);
+        const verse = data.verses[randomIndex];
+
+        // Display the random verse
+        document.getElementById('quote').textContent = `"${verse.text}"`;
+        document.getElementById('author').textContent = `- ${verse.book_name} ${verse.chapter}:${verse.verse}`;
     } catch (error) {
         // Handle errors
         document.getElementById('quote').textContent = "Sorry, something went wrong.";
         document.getElementById('author').textContent = "";
     }
 }
+
 
 
     </script>
