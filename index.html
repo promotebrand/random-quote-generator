@@ -59,17 +59,19 @@
     </div>
 
     <script>
-        async function generateQuote() {
+     async function generateQuote() {
     try {
-        const response = await fetch('https://api.quotable.io/random'); // Fetch a random quote
+        const response = await fetch('https://quote-garden.herokuapp.com/api/v3/quotes/random'); // Fetch a random quote
         const data = await response.json(); // Convert response to JSON
-        document.getElementById('quote').textContent = `"${data.content}"`;
-        document.getElementById('author').textContent = `- ${data.author}`;
+        const quote = data.data[0]; // Access the first quote
+        document.getElementById('quote').textContent = `"${quote.quoteText}"`;
+        document.getElementById('author').textContent = `- ${quote.quoteAuthor}`;
     } catch (error) {
         document.getElementById('quote').textContent = "Sorry, something went wrong.";
         document.getElementById('author').textContent = "";
     }
 }
+
     </script>
 </body>
 </html>
