@@ -3,9 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta property="og:title" content="Random Bible Quote Generator">
-    <meta property="og:description" content="Generate and share random Bible verses.">
-    <meta property="og:image" content="path-to-your-image.jpg">
     <title>Random Bible Quote Generator</title>
     <style>
         body {
@@ -60,8 +57,9 @@
 
     <script>
         async function generateBibleQuote() {
+            console.log("Button clicked: generating quote...");
             try {
-                // Fetch a random Bible verse (using a random verse endpoint or pre-defined references)
+                // Fetch a random Bible verse
                 const references = [
                     "John+3:16",
                     "Psalm+23:1",
@@ -70,14 +68,16 @@
                     "Romans+8:28"
                 ];
                 const randomReference = references[Math.floor(Math.random() * references.length)];
+                console.log(`Fetching verse for reference: ${randomReference}`);
                 const response = await fetch(`https://bible-api.com/${randomReference}`);
                 const data = await response.json();
+                console.log("API response:", data);
 
                 // Display the verse and reference
                 document.getElementById('quote').textContent = `"${data.text.trim()}"`;
                 document.getElementById('author').textContent = `- ${data.reference}`;
             } catch (error) {
-                // Handle errors
+                console.error("Error fetching Bible quote:", error);
                 document.getElementById('quote').textContent = "Sorry, something went wrong. Please try again.";
                 document.getElementById('author').textContent = "";
             }
@@ -85,4 +85,3 @@
     </script>
 </body>
 </html>
-
