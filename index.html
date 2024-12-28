@@ -90,11 +90,10 @@
                     "3+John", "Jude", "Revelation"
                 ];
                 const randomBook = books[Math.floor(Math.random() * books.length)];
-                const randomChapter = Math.ceil(Math.random() * 50); 
-                const randomVerse = Math.ceil(Math.random() * 31); 
+                const randomChapter = Math.ceil(Math.random() * 50);
+                const randomVerse = Math.ceil(Math.random() * 31);
                 const response = await fetch(`https://bible-api.com/${randomBook}+${randomChapter}:${randomVerse}`);
                 const data = await response.json();
-
                 document.getElementById('quote').textContent = `"${data.text.trim()}"`;
                 document.getElementById('author').textContent = `- ${data.reference}`;
             } catch (error) {
