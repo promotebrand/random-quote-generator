@@ -181,7 +181,9 @@
 
         function shareOnTwitter() {
             const quote = document.getElementById('quote').textContent;
-            const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(quote)}`;
+            const author = document.getElementById('author').textContent; // Include the source
+            const textToShare = `${quote} ${author}`; // Combine the quote and source
+            const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(textToShare)}`;
             window.open(url, '_blank');
         }
 
