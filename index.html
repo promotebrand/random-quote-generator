@@ -98,17 +98,24 @@
 
                 // Select a random chapter and verse
                 const randomChapter = Math.ceil(Math.random() * chapterLimits[randomBook]);
-                const randomVerse = Math.ceil(Math.random() * 31); // Approximation
+                const randomVerse = Math.ceil(Math.random() * 31);
 
-                // Fetch the Bible verse from the API
+                console.log(`Fetching: ${randomBook} ${randomChapter}:${randomVerse}`);
+
                 const response = await fetch(`https://bible-api.com/${randomBook}+${randomChapter}:${randomVerse}`);
-                const data = await response.json();
+                console.log("Response status:", response.status);
 
-                if (data.error) {
-                    throw new Error(data.error); // Handle API errors
+                if (!response.ok) {
+                    throw new Error(`API returned status: ${response.status}`);
                 }
 
-                // Update the UI with the fetched quote
+                const data = await response.json();
+                console.log("API Response:", data);
+
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+
                 document.getElementById('quote').textContent = `"${data.text.trim()}"`;
                 document.getElementById('author').textContent = `- ${data.reference}`;
             } catch (error) {
