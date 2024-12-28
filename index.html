@@ -49,10 +49,10 @@
         button:hover {
             background-color: #0056b3;
         }
-        .donate-btn {
+        .support-btn {
             background-color: #28a745;
         }
-        .donate-btn:hover {
+        .support-btn:hover {
             background-color: #218838;
         }
     </style>
@@ -65,7 +65,7 @@
         <div class="button-container">
             <button onclick="generateBibleQuote()">Get Quote</button>
             <a href="https://trust.dailyletter.us/support" target="_blank">
-                <button class="donate-btn">Support Us: Donate to Charity</button>
+                <button class="support-btn">Support Us Here</button>
             </a>
         </div>
     </div>
@@ -73,7 +73,6 @@
     <script>
         async function generateBibleQuote() {
             try {
-                // Define books and their chapter and verse limits
                 const chapterLimits = {
                     Genesis: 50, Exodus: 40, Leviticus: 27, Numbers: 36, Deuteronomy: 34,
                     Joshua: 24, Judges: 21, Ruth: 4, "1+Samuel": 31, "2+Samuel": 24,
@@ -92,11 +91,8 @@
                     Jude: 1, Revelation: 22
                 };
 
-                // Select a random book
                 const books = Object.keys(chapterLimits);
                 const randomBook = books[Math.floor(Math.random() * books.length)];
-
-                // Select a random chapter and verse
                 const randomChapter = Math.ceil(Math.random() * chapterLimits[randomBook]);
                 const randomVerse = Math.ceil(Math.random() * 31);
 
@@ -120,10 +116,4 @@
                 document.getElementById('author').textContent = `- ${data.reference}`;
             } catch (error) {
                 console.error("Error fetching Bible quote:", error);
-                document.getElementById('quote').textContent = "Sorry, something went wrong. Please try again.";
-                document.getElementById('author').textContent = "";
-            }
-        }
-    </script>
-</body>
-</html>
+                document.getElementById('quote').textContent = "
