@@ -25,12 +25,6 @@
         h1 {
             color: #333;
         }
-        h3 {
-            color: #444;
-        }
-        p {
-            color: #555;
-        }
         .quote {
             background: #fff;
             padding: 20px;
@@ -108,6 +102,10 @@
             <button onclick="generateBibleQuote()">Get Quote</button>
             <button onclick="copyQuote()">Copy Quote</button>
             <button onclick="shareOnTwitter()">Share on Twitter</button>
+            <button onclick="shareOnFacebook()">Share on Facebook</button>
+            <button onclick="downloadQuoteImage()">Share on Instagram</button>
+            <button onclick="shareOnLinkedIn()">Share on LinkedIn</button>
+            <button onclick="shareOnWhatsApp()">Share on WhatsApp</button>
             <a href="https://trust.dailyletter.us/support" target="_blank">
                 <button class="support-btn">Support Us Here</button>
             </a>
@@ -181,9 +179,60 @@
 
         function shareOnTwitter() {
             const quote = document.getElementById('quote').textContent;
-            const author = document.getElementById('author').textContent; // Include the source
-            const textToShare = `${quote} ${author}`; // Combine the quote and source
+            const author = document.getElementById('author').textContent;
+            const textToShare = `"${quote}" ${author}`;
             const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(textToShare)}`;
+            window.open(url, '_blank');
+        }
+
+        function shareOnFacebook() {
+            const quote = document.getElementById('quote').textContent;
+            const author = document.getElementById('author').textContent;
+            const textToShare = `"${quote}" ${author}`;
+            const url = `https://www.facebook.com/sharer/sharer.php?u=https://yourwebsite.com&quote=${encodeURIComponent(textToShare)}`;
+            window.open(url, '_blank');
+        }
+
+        function downloadQuoteImage() {
+            const quote = document.getElementById('quote').textContent;
+            const author = document.getElementById('author').textContent;
+
+            const canvas = document.createElement('canvas');
+            canvas.width = 800;
+            canvas.height = 400;
+
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#f4f4f4';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.font = '20px Arial';
+            ctx.fillStyle = '#333';
+            ctx.textAlign = 'center';
+
+            const text = `"${quote}"\n${author}`;
+            const lines = text.split('\n');
+            lines.forEach((line, index) => {
+                ctx.fillText(line, canvas.width / 2, 100 + index * 30);
+            });
+
+            const link = document.createElement('a');
+            link.download = 'quote.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+
+        function shareOnLinkedIn() {
+            const quote = document.getElementById('quote').textContent;
+            const author = document.getElementById('author').textContent;
+            const textToShare = `"${quote}" ${author}`;
+            const url = `https://www.linkedin.com/sharing/share-offsite/?url=https://yourwebsite.com&summary=${encodeURIComponent(textToShare)}`;
+            window.open(url, '_blank');
+        }
+
+        function shareOnWhatsApp() {
+            const quote = document.getElementById('quote').textContent;
+            const author = document.getElementById('author').textContent;
+            const textToShare = `"${quote}" ${author}`;
+            const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(textToShare)}`;
             window.open(url, '_blank');
         }
 
