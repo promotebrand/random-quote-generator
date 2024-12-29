@@ -202,16 +202,20 @@
             canvas.height = 400;
 
             const ctx = canvas.getContext('2d');
-            ctx.fillStyle = '#f4f4f4';
+            const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+            gradient.addColorStop(0, '#ff9a9e');
+            gradient.addColorStop(0.5, '#fad0c4');
+            gradient.addColorStop(1, '#fbc2eb');
+            ctx.fillStyle = gradient;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.font = '20px Arial';
-            ctx.fillStyle = '#333';
-            ctx.textAlign = 'center';
 
+            ctx.font = '24px Arial';
+            ctx.fillStyle = '#fff';
+            ctx.textAlign = 'center';
             const text = `"${quote}"\n${author}`;
             const lines = text.split('\n');
             lines.forEach((line, index) => {
-                ctx.fillText(line, canvas.width / 2, 100 + index * 30);
+                ctx.fillText(line, canvas.width / 2, 150 + index * 40);
             });
 
             const link = document.createElement('a');
@@ -221,10 +225,11 @@
         }
 
         function shareOnLinkedIn() {
+            const urlToShare = "https://yourwebsite.com";
             const quote = document.getElementById('quote').textContent;
             const author = document.getElementById('author').textContent;
-            const textToShare = `"${quote}" ${author}`;
-            const url = `https://www.linkedin.com/sharing/share-offsite/?url=https://yourwebsite.com&summary=${encodeURIComponent(textToShare)}`;
+            const summary = `${quote} ${author}`;
+            const url = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(urlToShare)}&summary=${encodeURIComponent(summary)}`;
             window.open(url, '_blank');
         }
 
