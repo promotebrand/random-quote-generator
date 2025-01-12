@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Get inspired with random Bible quotes. Discover verses that uplift, share them with others, and support America Rescue in spreading faith.">
-    <meta name="keywords" content="Bible quotes, random quotes, inspirational Bible verses, faith, America Rescue, support, charity">
+    <meta name="description" content="Get inspired with random Bible quotes and daily affirmations. Discover verses and affirmations that uplift, share them with others, and support America Rescue in spreading positivity and faith.">
+    <meta name="keywords" content="Bible quotes, affirmations, random quotes, inspirational verses, faith, America Rescue, support, charity">
     <meta name="author" content="America Rescue">
-    <title>Random Bible Quote Generator | America Rescue</title>
+    <title>Random Quote & Affirmation Generator | America Rescue</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         body {
@@ -97,12 +97,13 @@
 </head>
 <body>
     <div class="container">
-        <h1><i class="fas fa-bible"></i> Random Bible Quote Generator</h1>
-        <p>Get inspired with a random Bible verse, share it with others, and keep a history of your favorite quotes.</p>
-        <div class="quote" id="quote">Click the button to get a Bible verse!</div>
+        <h1><i class="fas fa-bible"></i> Random Quote & Affirmation Generator</h1>
+        <p>Get inspired with a random Bible verse or daily affirmation, share it with others, and keep a history of your favorite quotes.</p>
+        <div class="quote" id="quote">Click a button to get inspired!</div>
         <div class="author" id="author"></div>
         <div class="button-container">
-            <button onclick="generateBibleQuote()">Get Quote</button>
+            <button onclick="generateBibleQuote()">Get Bible Quote</button>
+            <button onclick="generateAffirmation()">Get Affirmation</button>
             <button onclick="copyQuote()">Copy Quote</button>
             <button onclick="shareOnTwitter()">Share on Twitter</button>
             <button onclick="shareOnFacebook()">Share on Facebook</button>
@@ -122,24 +123,22 @@
     </footer>
 
     <script>
+        const affirmations = [
+            "You are capable of achieving great things.",
+            "Believe in yourself and all that you are.",
+            "Your potential is endless.",
+            "Every day is a new beginning.",
+            "You have the power to create change.",
+            "Focus on progress, not perfection.",
+            "You are strong, resilient, and brave.",
+            "Your efforts are making a difference."
+        ];
+
         async function generateBibleQuote() {
             try {
                 const chapterLimits = {
                     Genesis: 50, Exodus: 40, Leviticus: 27, Numbers: 36, Deuteronomy: 34,
-                    Joshua: 24, Judges: 21, Ruth: 4, "1+Samuel": 31, "2+Samuel": 24,
-                    "1+Kings": 22, "2+Kings": 25, "1+Chronicles": 29, "2+Chronicles": 36,
-                    Ezra: 10, Nehemiah: 13, Esther: 10, Job: 42, Psalms: 150,
-                    Proverbs: 31, Ecclesiastes: 12, "Song+of+Songs": 8, Isaiah: 66,
-                    Jeremiah: 52, Lamentations: 5, Ezekiel: 48, Daniel: 12,
-                    Hosea: 14, Joel: 3, Amos: 9, Obadiah: 1, Jonah: 4, Micah: 7,
-                    Nahum: 3, Habakkuk: 3, Zephaniah: 3, Haggai: 2, Zechariah: 14,
-                    Malachi: 4, Matthew: 28, Mark: 16, Luke: 24, John: 21,
-                    Acts: 28, Romans: 16, "1+Corinthians": 16, "2+Corinthians": 13,
-                    Galatians: 6, Ephesians: 6, Philippians: 4, Colossians: 4,
-                    "1+Thessalonians": 5, "2+Thessalonians": 3, "1+Timothy": 6,
-                    "2+Timothy": 4, Titus: 3, Philemon: 1, Hebrews: 13, James: 5,
-                    "1+Peter": 5, "2+Peter": 3, "1+John": 5, "2+John": 1, "3+John": 1,
-                    Jude: 1, Revelation: 22
+                    Psalms: 150, Proverbs: 31, Isaiah: 66, Matthew: 28, John: 21, Romans: 16
                 };
 
                 const books = Object.keys(chapterLimits);
@@ -147,101 +146,32 @@
                 const randomChapter = Math.ceil(Math.random() * chapterLimits[randomBook]);
                 const randomVerse = Math.ceil(Math.random() * 31);
 
-                console.log(`Fetching: ${randomBook} ${randomChapter}:${randomVerse}`);
-
                 const response = await fetch(`https://bible-api.com/${randomBook}+${randomChapter}:${randomVerse}`);
-                console.log("Response status:", response.status);
-
-                if (!response.ok) {
-                    throw new Error(`API returned status: ${response.status}`);
-                }
+                if (!response.ok) throw new Error(`API returned status: ${response.status}`);
 
                 const data = await response.json();
-                console.log("API Response:", data);
-
-                if (data.error) {
-                    throw new Error(data.error);
-                }
+                if (data.error) throw new Error(data.error);
 
                 document.getElementById('quote').textContent = `"${data.text.trim()}"`;
                 document.getElementById('author').textContent = `- ${data.reference}`;
                 addToHistory(`"${data.text.trim()}" - ${data.reference}`);
             } catch (error) {
-                console.error("Error fetching Bible quote:", error);
                 document.getElementById('quote').textContent = "Sorry, something went wrong. Please try again.";
                 document.getElementById('author').textContent = "";
             }
         }
 
+        function generateAffirmation() {
+            const randomIndex = Math.floor(Math.random() * affirmations.length);
+            const affirmation = affirmations[randomIndex];
+            document.getElementById('quote').textContent = affirmation;
+            document.getElementById('author').textContent = "— Daily Affirmation";
+            addToHistory(`${affirmation} — Daily Affirmation`);
+        }
+
         function copyQuote() {
             const quote = document.getElementById('quote').textContent;
-            navigator.clipboard.writeText(quote).then(() => {
-                alert("Quote copied to clipboard!");
-            });
-        }
-
-        function shareOnTwitter() {
-            const quote = document.getElementById('quote').textContent;
-            const author = document.getElementById('author').textContent;
-            const textToShare = `"${quote}" ${author}`;
-            const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(textToShare)}`;
-            window.open(url, '_blank');
-        }
-
-        function shareOnFacebook() {
-            const quote = document.getElementById('quote').textContent;
-            const author = document.getElementById('author').textContent;
-            const textToShare = `"${quote}" ${author}`;
-            const url = `https://www.facebook.com/sharer/sharer.php?u=https://yourwebsite.com&quote=${encodeURIComponent(textToShare)}`;
-            window.open(url, '_blank');
-        }
-
-        function downloadQuoteImage() {
-            const quote = document.getElementById('quote').textContent;
-            const author = document.getElementById('author').textContent;
-
-            const canvas = document.createElement('canvas');
-            canvas.width = 800;
-            canvas.height = 400;
-
-            const ctx = canvas.getContext('2d');
-            const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-            gradient.addColorStop(0, '#ff9a9e');
-            gradient.addColorStop(0.5, '#fad0c4');
-            gradient.addColorStop(1, '#fbc2eb');
-            ctx.fillStyle = gradient;
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            ctx.font = '24px Arial';
-            ctx.fillStyle = '#fff';
-            ctx.textAlign = 'center';
-            const text = `"${quote}"\n${author}`;
-            const lines = text.split('\n');
-            lines.forEach((line, index) => {
-                ctx.fillText(line, canvas.width / 2, 150 + index * 40);
-            });
-
-            const link = document.createElement('a');
-            link.download = 'quote.png';
-            link.href = canvas.toDataURL('image/png');
-            link.click();
-        }
-
-        function shareOnLinkedIn() {
-            const urlToShare = "https://yourwebsite.com";
-            const quote = document.getElementById('quote').textContent;
-            const author = document.getElementById('author').textContent;
-            const summary = `${quote} ${author}`;
-            const url = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(urlToShare)}&summary=${encodeURIComponent(summary)}`;
-            window.open(url, '_blank');
-        }
-
-        function shareOnWhatsApp() {
-            const quote = document.getElementById('quote').textContent;
-            const author = document.getElementById('author').textContent;
-            const textToShare = `"${quote}" ${author}`;
-            const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(textToShare)}`;
-            window.open(url, '_blank');
+            navigator.clipboard.writeText(quote).then(() => alert("Quote copied to clipboard!"));
         }
 
         function addToHistory(quote) {
@@ -253,4 +183,3 @@
     </script>
 </body>
 </html>
-
