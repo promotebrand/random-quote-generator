@@ -134,9 +134,10 @@
             "Your efforts are making a difference. Believe it!",
             "Happiness is a choice, and today you choose to be happy. Keep going!",
             "You are worthy of love and respect. You’ve got this!",
-            "Your hard work is paying off, and success is coming your way. Believe it!",
-            // Add affirmations here, continuing until there are 500 unique entries
+            // Add the rest of the affirmations here for a total of 500 unique affirmations
         ];
+
+        let lastAffirmationIndex = -1;
 
         async function generateBibleQuote() {
             try {
@@ -166,7 +167,12 @@
         }
 
         function generateAffirmation() {
-            const randomIndex = Math.floor(Math.random() * affirmations.length);
+            let randomIndex;
+            do {
+                randomIndex = Math.floor(Math.random() * affirmations.length);
+            } while (randomIndex === lastAffirmationIndex);
+            lastAffirmationIndex = randomIndex;
+
             const affirmation = affirmations[randomIndex];
             document.getElementById('quote').textContent = affirmation;
             document.getElementById('author').textContent = "— Daily Affirmation";
